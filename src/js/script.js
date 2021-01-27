@@ -7,6 +7,7 @@
 
     containerOf: {
       booksPanel: '.books-list',
+      form: '.filters',
     },
 
     book: {
@@ -21,7 +22,9 @@
 
   //Variables
   const favoriteBooks = [];
+  const filters = [];
   const booksWrapper = document.querySelector(select.containerOf.booksPanel);
+  const filtersFormHTML = document.querySelector(select.containerOf.form);
   
 
   function render(){
@@ -39,18 +42,29 @@
   }
   
   function initActions(){
-     
-    
-    //for every element of book image in books-list
-    
-      
+    //add EventListener for checked boxes in filters
+    filtersFormHTML.addEventListener('change', function(event){
+      event.preventDefault();
+      const clickedElement = event.target;
+      if(clickedElement.type === 'checkbox'){
+        if(clickedElement.checked){
+            filters.push(clickedElement.value);
+            console.log(filters);
+        } else {
+            const indexOfFilter = filters.indexOf(clickedElement.value);
+            filters.splice(indexOfFilter, 1);
+            console.log(filters);
+        }
+
+      }
+    });
     //add EventListener for every element on double klick
     booksWrapper.addEventListener('dblclick', function(event){
       //prevent default
       event.preventDefault();
 
       const clickedElement = event.target.offsetParent;
-    console.log(clickedElement);
+      console.log(clickedElement);
       
         
 
@@ -68,16 +82,10 @@
 
           clickedElement.classList.add('favorite');
           favoriteBooks.push(bookId);
-        } 
-
-        //add this element to favoriteBooks
-        
-        
-        
-        console.log('ID\'s', favoriteBooks);
+        }        
       }
-        
     });
+
     
 
   }
