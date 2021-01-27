@@ -11,6 +11,7 @@
 
     book: {
       image: '.books-list .book__image',
+      favorite: '.books-list .favorite',
     },
   };
 
@@ -40,16 +41,30 @@
     const booksList = document.querySelectorAll(select.book.image);  
     //for every element of book image in books-list
     for(const element of booksList){
+      
       //add EventListener for every element on double klick
       element.addEventListener('dblclick', function(event){
         //prevent default
         event.preventDefault();
-        //add this element to favoriteBooks
+        //get the id of clicked book image
         const bookId = element.getAttribute('data-id');
-        favoriteBooks.push(bookId);
-        //add class favorite
         
-        if(bookId != null && bookId != favoriteBooks)element.classList.add('favorite');
+        //add or remove class favorite
+        
+        if(favoriteBooks.includes(bookId)){
+        
+          const indexOfBookID = favoriteBooks.indexOf(bookId);
+          element.classList.remove('favorite');
+          favoriteBooks.splice(indexOfBookID, 1);
+        }
+        else{
+
+          element.classList.add('favorite');
+          favoriteBooks.push(bookId);
+        } 
+
+        //add this element to favoriteBooks
+        
         
         
         console.log('ID\'s', favoriteBooks);
